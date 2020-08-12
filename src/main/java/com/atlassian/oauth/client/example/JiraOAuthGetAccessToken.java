@@ -9,7 +9,7 @@ public class JiraOAuthGetAccessToken extends OAuthGetAccessToken {
      */
     public JiraOAuthGetAccessToken(String authorizationServerUrl) {
         super(authorizationServerUrl);
-        this.usePost = false;
+        this.usePost = true;
     }
 
 }

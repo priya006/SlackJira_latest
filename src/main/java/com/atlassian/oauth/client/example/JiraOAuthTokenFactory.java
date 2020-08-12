@@ -14,14 +14,14 @@ import java.security.spec.PKCS8EncodedKeySpec;
 public class JiraOAuthTokenFactory {
     protected final String accessTokenUrl;
     protected final String requestTokenUrl;
-    protected final String authorizationUrl;
+
 
 
     public JiraOAuthTokenFactory(String jiraBaseUrl) {
         this.accessTokenUrl = jiraBaseUrl + "/plugins/servlet/oauth/access-token";
         ;
         requestTokenUrl = jiraBaseUrl + "/plugins/servlet/oauth/request-token";
-        authorizationUrl = jiraBaseUrl + "/plugins/servlet/oauth/authorize";
+       // authorizationUrl = jiraBaseUrl + "/plugins/servlet/oauth/authorize";
     }
 
     /**
@@ -48,11 +48,11 @@ public class JiraOAuthTokenFactory {
     }
 
 
-    public OAuthGetAccessToken getVerificationCode(){
+ /*   public OAuthGetAccessToken getVerificationCode(){
 
         JiraOAuthGetAccessToken accessToken = new JiraOAuthGetAccessToken(authorizationUrl);
         return accessToken;
-    }
+    }*/
 
     /**
      * Initialize JiraOAuthGetTemporaryToken
@@ -71,7 +71,6 @@ public class JiraOAuthTokenFactory {
         oAuthGetTemporaryToken.signer = getOAuthRsaSigner(privateKey);
         oAuthGetTemporaryToken.transport = new ApacheHttpTransport();
         oAuthGetTemporaryToken.callback = "oob";
-        System.out.println("getTemporaryToken_suspect" + oAuthGetTemporaryToken);
         return oAuthGetTemporaryToken;
     }
 

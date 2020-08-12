@@ -88,7 +88,6 @@ public class OAuthClient {
         Map<String, String> properties = propertiesClient.getPropertiesOrDefaults();
         String tmpToken = properties.get(REQUEST_TOKEN);
         String secret = arguments.get(0);
-        System.out.println("priyasecrete" +secret);
 
         try {
             String accessToken = jiraOAuthClient.getAccessToken(tmpToken, secret, properties.get(CONSUMER_KEY), properties.get(PRIVATE_KEY));
@@ -126,13 +125,13 @@ public class OAuthClient {
         }
     }
 
-    //OAuthParameters parameters = jiraOAuthClient.getParameters(tmpToken, String secret, properties.get(CONSUMER_KEY), properties.get(PRIVATE_KEY));
+/*    //OAuthParameters parameters = jiraOAuthClient.getParameters(tmpToken, String secret, properties.get(CONSUMER_KEY), properties.get(PRIVATE_KEY));
     public OAuthParameters getParameters(String accessToken, String AllowOrDeny) throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
         Map<String, String> properties = propertiesClient.getPropertiesOrDefaults();
         OAuthParameters parameters = jiraOAuthClient.getParameters(accessToken, null,  properties.get(CONSUMER_KEY), properties.get(PRIVATE_KEY));
        // HttpResponse response = getVerificationCode(parameters, new GenericUrl(String.valueOf(url)));
         return  parameters;
-    }
+    }*/
 
 /*
     public HttpResponse getVerificationCode(OAuthParameters parameters,  String authorizationUrl){
@@ -169,11 +168,13 @@ public class OAuthClient {
      * @return
      * @throws IOException
      */
+/*
     public  HttpResponse getVerificationCode(OAuthParameters parameters, GenericUrl jiraUrl) throws IOException {
         HttpRequestFactory requestFactory = new NetHttpTransport().createRequestFactory(parameters);
         HttpRequest request = requestFactory.buildPostRequest(jiraUrl,null);
         return request.execute();
     }
+*/
 
     /**
      * Authanticates to JIRA with given OAuthParameters and makes request to url
