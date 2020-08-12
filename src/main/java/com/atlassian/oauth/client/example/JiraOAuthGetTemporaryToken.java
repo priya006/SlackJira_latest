@@ -12,4 +12,6 @@ public class JiraOAuthGetTemporaryToken extends OAuthGetTemporaryToken {
         this.usePost = true;
     }
 
+
+
 }

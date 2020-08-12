@@ -8,8 +8,11 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.common.collect.ImmutableMap;
 import org.json.JSONObject;
+import sun.net.www.content.text.Generic;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -85,6 +88,7 @@ public class OAuthClient {
         Map<String, String> properties = propertiesClient.getPropertiesOrDefaults();
         String tmpToken = properties.get(REQUEST_TOKEN);
         String secret = arguments.get(0);
+        System.out.println("priyasecrete" +secret);
 
         try {
             String accessToken = jiraOAuthClient.getAccessToken(tmpToken, secret, properties.get(CONSUMER_KEY), properties.get(PRIVATE_KEY));
@@ -113,12 +117,30 @@ public class OAuthClient {
         try {
             OAuthParameters parameters = jiraOAuthClient.getParameters(tmpToken, secret, properties.get(CONSUMER_KEY), properties.get(PRIVATE_KEY));
             HttpResponse response = getResponseFromUrl(parameters, new GenericUrl(url));
+
+
             parseResponse(response);
             return Optional.empty();
         } catch (Exception e) {
             return Optional.of(e);
         }
     }
+
+    //OAuthParameters parameters = jiraOAuthClient.getParameters(tmpToken, String secret, properties.get(CONSUMER_KEY), properties.get(PRIVATE_KEY));
+    public OAuthParameters getParameters(String accessToken, String AllowOrDeny) throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
+        Map<String, String> properties = propertiesClient.getPropertiesOrDefaults();
+        OAuthParameters parameters = jiraOAuthClient.getParameters(accessToken, null,  properties.get(CONSUMER_KEY), properties.get(PRIVATE_KEY));
+       // HttpResponse response = getVerificationCode(parameters, new GenericUrl(String.valueOf(url)));
+        return  parameters;
+    }
+
+/*
+    public HttpResponse getVerificationCode(OAuthParameters parameters,  String authorizationUrl){
+
+        HttpResponse verificationResponse = getVerificationCode();
+
+
+    }*/
 
     /**
      * Prints response content
@@ -135,8 +157,22 @@ public class OAuthClient {
             JSONObject jsonObj = new JSONObject(result);
             System.out.println(jsonObj.toString(2));
         } catch (Exception e) {
-            System.out.println(result);
+            System.out.println("Magic" +result);
         }
+    }
+
+    /**
+     * Authanticates to JIRA with given OAuthParameters and makes request to url
+     *
+     * @param parameters
+     * @param jiraUrl
+     * @return
+     * @throws IOException
+     */
+    public  HttpResponse getVerificationCode(OAuthParameters parameters, GenericUrl jiraUrl) throws IOException {
+        HttpRequestFactory requestFactory = new NetHttpTransport().createRequestFactory(parameters);
+        HttpRequest request = requestFactory.buildPostRequest(jiraUrl,null);
+        return request.execute();
     }
 
     /**
@@ -152,4 +188,6 @@ public class OAuthClient {
         HttpRequest request = requestFactory.buildGetRequest(jiraUrl);
         return request.execute();
     }
+
+
 }

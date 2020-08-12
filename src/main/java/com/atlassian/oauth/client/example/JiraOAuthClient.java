@@ -1,8 +1,6 @@
 package com.atlassian.oauth.client.example;
 
-import com.google.api.client.auth.oauth.OAuthAuthorizeTemporaryTokenUrl;
-import com.google.api.client.auth.oauth.OAuthCredentialsResponse;
-import com.google.api.client.auth.oauth.OAuthParameters;
+import com.google.api.client.auth.oauth.*;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -35,15 +33,40 @@ public class JiraOAuthClient {
     public String getAndAuthorizeTemporaryToken(String consumerKey, String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
         JiraOAuthGetTemporaryToken temporaryToken = oAuthGetAccessTokenFactory.getTemporaryToken(consumerKey, privateKey);
         OAuthCredentialsResponse response = temporaryToken.execute();
+        System.out.println("OAuthCredentialsResponse:"+response);
 
+/*
         System.out.println("Token:\t\t\t" + response.token);
         System.out.println("Token secret:\t" + response.tokenSecret);
+*/
 
         OAuthAuthorizeTemporaryTokenUrl authorizationURL = new OAuthAuthorizeTemporaryTokenUrl(authorizationUrl);
         authorizationURL.temporaryToken = response.token;
-        System.out.println("Retrieve request token. Go to " + authorizationURL.toString() + " to authorize it.");
+       /* System.out.println("what is this response token" + response.token);
+        System.out.println("what is this temporary token" + authorizationURL.temporaryToken);
+
+        System.out.println("Retrieve request token. Go to " + authorizationURL.toString() + " to authorize it.");*/
+
+      //  JiraOAuthGetTemporaryToken getTemporaryToken = new JiraOAuthGetTemporaryToken(authorizationUrl);
+
+    //    OAuthCredentialsResponse verificationCode =  getTemporaryToken.execute();
+
+        JiraOAuthGetAccessToken accessToken = new JiraOAuthGetAccessToken(authorizationURL.toString());
+        System.out.println("accessToken: signer"+ accessToken.signer);
+
 
         return response.token;
+    }
+
+    public OAuthGetAccessToken VerificationCode(String authorizationURL){
+        OAuthGetAccessToken verificationCode =   oAuthGetAccessTokenFactory.getVerificationCode();
+        System.out.println("plan" +verificationCode);
+        return verificationCode;
+
+    }
+
+    public String getAuthorizationUrl (){
+        return authorizationUrl;
     }
 
     /**
@@ -63,6 +86,7 @@ public class JiraOAuthClient {
         OAuthCredentialsResponse response = oAuthAccessToken.execute();
 
         System.out.println("Access token:\t\t\t" + response.token);
+
         return response.token;
     }
 

@@ -1,5 +1,6 @@
 package com.atlassian.oauth.client.example;
 
+import com.google.api.client.auth.oauth.OAuthGetAccessToken;
 import com.google.api.client.auth.oauth.OAuthRsaSigner;
 import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.repackaged.org.apache.commons.codec.binary.Base64;
@@ -13,12 +14,14 @@ import java.security.spec.PKCS8EncodedKeySpec;
 public class JiraOAuthTokenFactory {
     protected final String accessTokenUrl;
     protected final String requestTokenUrl;
+    protected final String authorizationUrl;
 
 
     public JiraOAuthTokenFactory(String jiraBaseUrl) {
         this.accessTokenUrl = jiraBaseUrl + "/plugins/servlet/oauth/access-token";
         ;
         requestTokenUrl = jiraBaseUrl + "/plugins/servlet/oauth/request-token";
+        authorizationUrl = jiraBaseUrl + "/plugins/servlet/oauth/authorize";
     }
 
     /**
@@ -45,6 +48,12 @@ public class JiraOAuthTokenFactory {
     }
 
 
+    public OAuthGetAccessToken getVerificationCode(){
+
+        JiraOAuthGetAccessToken accessToken = new JiraOAuthGetAccessToken(authorizationUrl);
+        return accessToken;
+    }
+
     /**
      * Initialize JiraOAuthGetTemporaryToken
      * by setting it to use POST method, oob (Out of Band) callback
@@ -62,6 +71,7 @@ public class JiraOAuthTokenFactory {
         oAuthGetTemporaryToken.signer = getOAuthRsaSigner(privateKey);
         oAuthGetTemporaryToken.transport = new ApacheHttpTransport();
         oAuthGetTemporaryToken.callback = "oob";
+        System.out.println("getTemporaryToken_suspect" + oAuthGetTemporaryToken);
         return oAuthGetTemporaryToken;
     }
 
