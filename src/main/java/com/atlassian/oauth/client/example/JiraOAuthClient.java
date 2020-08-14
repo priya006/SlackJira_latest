@@ -1,6 +1,7 @@
 package com.atlassian.oauth.client.example;
 
 import com.google.api.client.auth.oauth.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -13,7 +14,7 @@ public class JiraOAuthClient {
     public final String jiraBaseUrl;
     private final JiraOAuthTokenFactory oAuthGetAccessTokenFactory;
     private final String authorizationUrl;
-
+    @Autowired
     public JiraOAuthClient(PropertiesClient propertiesClient) throws Exception {
         jiraBaseUrl = propertiesClient.getPropertiesOrDefaults().get(JIRA_HOME);
         this.oAuthGetAccessTokenFactory = new JiraOAuthTokenFactory(this.jiraBaseUrl);

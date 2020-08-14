@@ -1,4 +1,6 @@
+slackBoltServer/java/hello/SlashjiraApplication.class
 com/atlassian/oauth/client/example/JiraOAuthGetAccessToken.class
+slackBoltServer/java/hello/BackEndServiceForSlackSlashCommand.class
 com/atlassian/oauth/client/example/PropertiesClient.class
 com/atlassian/oauth/client/example/ClientMain.class
 com/atlassian/oauth/client/example/Command.class
